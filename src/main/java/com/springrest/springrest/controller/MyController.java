@@ -42,13 +42,11 @@ public class MyController {
 		return this.courseService.addNewCourse(course);
 	}
 
-
 	// update course
 	@PutMapping(path = "/courses")
 	public Course updateCourse(@RequestBody Course course) {
 		return this.courseService.updateCourse(course);
 	}
-
 
 	// delete course
 	@DeleteMapping(path = "/courses/{id}")
