@@ -1,0 +1,45 @@
+# Ignore Maven target directory
+/target/
+
+# Ignore Gradle build directory
+/build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse project files
+.project
+.classpath
+.settings/
+
+# Node.js
+node_modules/
+
+# Logs
+*.log
+
+# Ignore Java build files
+*.class
+
+# Ignore OS-specific files
+.DS_Store        # macOS
+Thumbs.db        # Windows
+
+# Eclipse, IntelliJ, VS Code, etc.
+.vscode/
+.idea/
+
+# Maven local repository
+.m2/
+
+# Environment files
+.env
+
+# If you have Spring Boot config with sensitive data, exclude it
+application.properties
+application.yml
+
+# Temporary files from editors
+*.swp
+*.swo
