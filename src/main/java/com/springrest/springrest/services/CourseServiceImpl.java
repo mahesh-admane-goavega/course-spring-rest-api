@@ -2,6 +2,7 @@ package com.springrest.springrest.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import com.springrest.springrest.entities.Course;
 public class CourseServiceImpl implements CourseService 
 {
 	List<Course> list;
-		
+
 	public CourseServiceImpl() {
 		list = new ArrayList<>();
 		list.add(new Course(1, "JavaScript And Drizzle", "This is course is teach you DTO in javaScript using Drizzle"));
@@ -21,7 +22,7 @@ public class CourseServiceImpl implements CourseService
 
 	@Override
 	public List<Course> getCourses() {
-				
+
 		return list;
 	}
 
@@ -47,26 +48,20 @@ public class CourseServiceImpl implements CourseService
 	}
 
 	@Override
-	public Course updateCourse(long id, Course course) {
-		for(int i = 0 ; i < list.size(); i++ ) {
-			Course myCourse = list.get(i);
-			if(myCourse.getId() == id) {
-				list.set(i, course);
-				return course;
+	public Course updateCourse(Course course) {
+		
+		list.forEach(e -> {
+			if(e.getId() == course.getId()) {
+				e.setTitle(course.getTitle());
+				e.setDescription(course.getDescription());
 			}
-		}
-		return null;
+		});
+		return course;
+		
 	}
 
 	@Override
-	public String deleteCourse(long id) {
-		for(int i = 0; i < list.size(); i++) {
-			Course myCourse = list.get(i);
-			if(myCourse.getId()== id) {
-				list.remove(i);
-				return "Course Removed!";
-			}
-		}
-		return "Not removed facing some issue!";
+	public void deleteCourse(long id) {
+		list = this.list.stream().filter(i -> i.getId() != id).collect(Collectors.toList());
 	}
 }
