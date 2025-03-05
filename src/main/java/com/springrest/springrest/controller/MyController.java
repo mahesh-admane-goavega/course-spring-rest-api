@@ -26,28 +26,60 @@ public class MyController {
 
 	// get all the courses
 	@GetMapping("/courses")
-	public List<Course> getCourses()
+	public ResponseEntity<List<Course>> getCourses()
 	{
-		return this.courseService.getCourses();
+		try {
+			List<Course> courses = this.courseService.getCourses();
+			return new ResponseEntity<>(courses, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// get single course by course id
 	@GetMapping("/courses/{courseId}")
-	public Course getCourses(@PathVariable String courseId) 
+	public ResponseEntity<Course> getCourses(@PathVariable String courseId) 
 	{
-		return this.courseService.GetCourseById(Long.parseLong(courseId));
+		try {
+			Course course = this.courseService.GetCourseById(Long.parseLong(courseId));
+			if(course != null) {				
+				return new ResponseEntity<>(course, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// create new course
 	@PostMapping(path = "/courses", consumes = "application/json")
-	public Course addCourse(@RequestBody Course course) {
-		return this.courseService.addNewCourse(course);
+	public ResponseEntity<Course> addCourse(@RequestBody Course course) {
+		try {
+			Course newCourse = this.courseService.addNewCourse(course);
+			return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// update course
 	@PutMapping(path = "/courses")
-	public Course updateCourse(@RequestBody Course course) {
-		return this.courseService.updateCourse(course);
+	public ResponseEntity<Course> updateCourse(@RequestBody Course course) {
+		try {
+			Course updatedCourse = this.courseService.updateCourse(course);
+			if(updatedCourse != null) {
+				return new ResponseEntity<>(updatedCourse, HttpStatus.OK);				
+			}
+			else
+			{
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	// delete course
