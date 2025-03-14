@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springrest.springrest.entities.Course;
 import com.springrest.springrest.services.CourseService;
 
+import jakarta.persistence.Access;
+
 @RestController
 @CrossOrigin(origins =  "*")
 public class MyController {
@@ -24,11 +28,21 @@ public class MyController {
 	@Autowired
 	private CourseService courseService;
 
+	@GetMapping("/message")
+	public String getMessage() {
+		System.out.println("Method Called");
+		return "Hello Mahesh";
+	}
+	
+	
 	// get all the courses
 	@GetMapping("/courses")
 	public ResponseEntity<List<Course>> getCourses()
 	{
 		try {
+			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			 System.out.println("AUTH FROM CONTROLLER" + authentication);
+			 System.out.println("CALLED");
 			List<Course> courses = this.courseService.getCourses();
 			return new ResponseEntity<>(courses, HttpStatus.OK);
 		} catch (Exception e) {
@@ -37,6 +51,7 @@ public class MyController {
 	}
 
 	// get single course by course id
+	@CrossOrigin(origins = "http://localhost:3000") 
 	@GetMapping("/courses/{courseId}")
 	public ResponseEntity<Course> getCourses(@PathVariable String courseId) 
 	{
