@@ -41,21 +41,22 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		return http.csrf(customizer -> customizer.disable())
-				.authorizeHttpRequests(request -> request
+		return http.csrf(customizer -> customizer
+						.disable())
+						.authorizeHttpRequests(request -> request
 						.requestMatchers("register", "login")
 						.permitAll()
-						.anyRequest().authenticated())
+						.anyRequest().authenticated()) 
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.cors(Customizer.withDefaults())
-				.logout(logout -> logout
-						.logoutUrl("/logout")  // Customize logout URL (optional)
-						.logoutSuccessHandler(logoutSuccessHandler())  // Optionally specify a custom logout success handler
-						.invalidateHttpSession(true)  // Invalidate session after logout (optional)
-						.clearAuthentication(true)  // Clear authentication information (optional)
-						.permitAll())
+//				.logout(logout -> logout
+//						.logoutUrl("/logout")  // Customize logout URL (optional)
+//						.logoutSuccessHandler(logoutSuccessHandler())  // Optionally specify a custom logout success handler
+//						.invalidateHttpSession(true)  // Invalidate session after logout (optional)
+//						.clearAuthentication(true)  // Clear authentication information (optional)
+//						.permitAll())
 				.build();
 	}
 
@@ -64,7 +65,7 @@ public class SecurityConfig {
 	CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
 	    configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-	    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+	    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 	    configuration.setAllowCredentials(true);
 	    configuration.addAllowedHeader("*");
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -28,12 +28,19 @@ public class MyController {
 	@Autowired
 	private CourseService courseService;
 
-	@GetMapping("/message")
-	public String getMessage() {
-		System.out.println("Method Called");
-		return "Hello Mahesh";
+
+	@GetMapping("/is_authenticated")
+	public boolean getMessage() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("Authenticated ???" + authentication);
+		if(authentication.isAuthenticated()) {
+ 
+			return true;			
+		}
+		else {
+			return false;
+		}
 	}
-	
 	
 	// get all the courses
 	@GetMapping("/courses")

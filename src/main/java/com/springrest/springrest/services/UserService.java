@@ -40,6 +40,7 @@ public class UserService {
 		return user;
 	}
 	
+	
 	public String verify(Users user) {
 		System.out.println("users" +user);
 		Authentication authentication = 

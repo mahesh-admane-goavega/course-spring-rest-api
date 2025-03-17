@@ -1,6 +1,7 @@
 package com.springrest.springrest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,11 +40,13 @@ public class UserController {
 		return userService.deleteUser(Integer.parseInt(userId));
 	}
 	
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		request.getSession().invalidate();
-		SecurityContextHolder.clearContext();
-		return "You have been successfully logged out!";
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpServletRequest request) {
+//		request.getSession().invalidate();
+//		SecurityContextHolder.clearContext();
+//		return "You have been successfully logged out!";
+//	}
+	
+
 	
 }
